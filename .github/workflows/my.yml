@@ -20,7 +20,7 @@ on:
       LAN_IP:
         description: 'Set LAN IP Address'
         required: true
-        default: '192.168.0.1'
+        default: '192.168.5.1'
       WIFI_DRIVER:
         description: 'Choose WiFi Driver'
         required: true
