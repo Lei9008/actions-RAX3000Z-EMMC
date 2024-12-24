@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 ###############手动修改##############
-name: routine21.02(hanwckf)
+name: 常规版_routine21.02(hanwckf)
 
 permissions: write-all
 # 开启写权限，防止无法上传到release
@@ -20,7 +20,7 @@ on:
       LAN_IP:
         description: 'Set LAN IP Address'
         required: true
-        default: '192.168.1.1'
+        default: '192.168.5.1'
       WIFI_DRIVER:
         description: 'Choose WiFi Driver'
         required: true
