@@ -45,13 +45,13 @@ on:
         required: true
         default: false
         type: boolean
-      NO_DOCKERMAN:
-        description: 'Not build luci-app-dockerman'
+      USE_52MHZ:
+        description: 'Use 52MHz max-frequency'
         required: true
         default: false
         type: boolean
-      USE_52MHZ:
-        description: 'Use 52MHz max-frequency'
+      NO_DOCKERMAN:
+        description: 'Not build luci-app-dockerman'
         required: true
         default: false
         type: boolean
