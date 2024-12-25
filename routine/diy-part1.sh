@@ -46,4 +46,4 @@ git clone https://github.com/kongfl888/luci-app-adguardhome package/luci-app-adg
 #git clone https://github.com/sbwml/luci-app-mosdns package/luci-app-mosdns
 
 # alist文件列表
-#git clone https://github.com/sbwml/luci-app-alist package/luci-app-alist
+git clone https://github.com/sbwml/luci-app-alist package/luci-app-alist
