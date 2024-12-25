@@ -6,9 +6,9 @@
 - 默认编译dockerman，如无需要请在运行工作流时勾选“Not build luci-app-dockerman”
 - 插件尽量不要加的太多，可能编译超时导致失败，我的建议是加入istore商店和一些其他插件，刷机以后去软件包/商店下载安装/使用.run（尽量不要编译网易云解灰/alist，大概率超时）
 - part1已经添加了自用的几个插件地址，按需增减
-- simplify为精简版
-- routine为常规版
-- simplify-25db为双频25db精简版
+- simplify:——精简版
+- routine: ——常规版
+- simplify-25db：——双频25db精简版
 - -------
 ## 感谢p大的云编译项目
 - https://p3terx.com/archives/build-openwrt-with-github-actions.html
