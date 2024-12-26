@@ -64,7 +64,7 @@ env:
   UPLOAD_TAG_NAME: rax3000m-emmc_my
   REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-23.05
   REPO_BRANCH: openwrt-23.05
-  #FEEDS_CONF: use/feeds.conf.default
+  FEEDS_CONF: use/feeds.conf.default
   RAX3000M_EMMC_DTS_FILE: target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts
   CONFIG_FILE: my/.config
   DIY_P1_SH: my/diy-part1.sh
