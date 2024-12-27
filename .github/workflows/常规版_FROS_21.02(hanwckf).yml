@@ -70,6 +70,8 @@ on:
         #type: boolean
      
 env:
+  OPENWRT_NAME: FROS
+  UPLOAD_TAG_NAME: RAX3000Z增强版
   REPO_URL: https://github.com/destan19/immortalwrt-mt798x-fros
   FREE_DISK_SH: use/free_disk_space.sh
   FEEDS_CONF: use/feeds.conf.default
