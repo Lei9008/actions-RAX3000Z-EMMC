@@ -7,21 +7,22 @@
 # https://github.com/P3TERX/Actions-OpenWrt
 # Description: Build OpenWrt using GitHub Actions
 #
+
 ###############手动修改##############
-name: 常规版_routine_FROS_21.02(hanwckf)
+name: 构建_FROS_21.02（基于H大）CMCC_RAX_3000Z增强版
 
 permissions: write-all
 # 开启写权限，防止无法上传到release
 
 on:
-  repository_dispatch:
   workflow_dispatch:
     inputs:
-      LAN_IP:
+
+     LAN_IP:
         description: 'Set LAN IP Address'
         required: true
         default: '192.168.5.1'
-      WIFI_DRIVER:
+     WIFI_DRIVER:
         description: 'Choose WiFi Driver'
         required: true
         default: 'v7.6.7.2-fw-20240823(recommend)'
@@ -35,52 +36,48 @@ on:
         - v7.6.6.1-fw-20230411
         - v7.6.6.1-fw-20230717
         - v7.6.6.1-fw-20231024
-      EEPROM:
+     EEPROM:
         description: 'Use nx30pro eeprom and fixed WiFi MAC address'
         required: true
         default: true
         type: boolean
-      APP_MTK:
+     APP_MTK:
         description: 'Use luci-app-mtk wifi config'
         required: true
         default: true
         type: boolean
-      USE_52MHZ:
+     USE_52MHZ:
         description: 'Use 52MHz max-frequency'
         required: true
         default: false
         type: boolean
-      NO_DOCKERMAN:
+     NO_DOCKERMAN:
         description: 'Not build luci-app-dockerman'
         required: true
         default: false
         type: boolean
-      ssh:
-        description: 'SSH connection to Actions'
-        required: false
-        default: 'false'
-#  schedule:
-#    - cron: 0 16 * * *
-
+     
+      
+     # USE_MTWIFI_CFG:
+        #description: 'Use mtwifi-cfg'
+        #required: true
+        #default: true
+        #type: boolean
+      #USE_NX30PRO_EEPROM:
+        #description: 'Use nx30pro eeprom'
+        #required: true
+        #default: true
+        #type: boolean
+     
 env:
-  ###############手动修改##############
-  ##因为是两个设备，所以手动设置上传时候的打包名称和tag名称UPLOAD_TAG_NAME
-  OPENWRT_NAME: routine
-  UPLOAD_TAG_NAME: rax3000m-emmc
   REPO_URL: https://github.com/destan19/immortalwrt-mt798x-fros
-  #REPO_BRANCH: openwrt-21.02
   FREE_DISK_SH: use/free_disk_space.sh
   FEEDS_CONF: use/feeds.conf.default
   ENV_SH: use/environment.sh
-  #FEEDS_CONF: use/feeds.conf.default
-  RAX3000M_EMMC_DTS_FILE: target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts
-  CONFIG_FILE: routine/rax3000z-emmc_FROS.config
-  #DIY_SH: use/FROS_diy.sh
-  DIY_P1_SH: routine/diy-part1.sh
-  DIY_P2_SH: routine/diy-part2.sh
+  DIY_SH: use/FROS_diy.sh
   CLASH_CORE: use/preset-clash-core.sh
-  SSH_ACTIONS: false
-  UPLOAD_FIRMWARE: true
+  UPLOAD_BIN_DIR: false
+  UPLOAD_FIRMWARE: false
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
 
@@ -88,46 +85,34 @@ jobs:
   build:
     runs-on: ubuntu-20.04
 
-    permissions:
-      contents: write
-
     steps:
-    - name: 检查项目分支
+    - name: 检查
       uses: actions/checkout@main
 
-    - name: 初始化编译环境
+    - name: 初始化环境
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
-        sudo -E apt-get -qq update
-        sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-2004)
-        sudo -E apt-get -qq autoremove --purge
-        sudo -E apt-get -qq clean
+        echo "USE_MTWIFI_CFG=${{ github.event.inputs.USE_MTWIFI_CFG }}" >> $GITHUB_ENV
+        echo "USE_NX30PRO_EEPROM=${{ github.event.inputs.USE_NX30PRO_EEPROM }}" >> $GITHUB_ENV
+        echo "USE_52MHZ=${{ github.event.inputs.USE_52MHZ }}" >> $GITHUB_ENV
+        chmod +x $FREE_DISK_SH && $FREE_DISK_SH
+        sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -qq update -y
+        sudo -E apt-get -qq full-upgrade -y
+        chmod +x $ENV_SH && $ENV_SH
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
 
-    - name: 清理磁盘空间(Ubuntu)
-      uses: jlumbroso/free-disk-space@main
-      with:
-        # this might remove tools that are actually needed,
-        # when set to "true" but frees about 6 GB
-        tool-cache: true
-        
-        # all of these default to true, but feel free to set to
-        # "false" if necessary for your workflow
-        android: false
-        dotnet: false
-        haskell: false
-        large-packages: false
-        swap-storage: false
+    - name: 检查空间使用情况
+      if: (!cancelled())
+      run: df -hT
 
-    - name: 下载固件源码
+    - name: 克隆源码
       working-directory: /workdir
       run: |
-        df -hT $PWD
-        git clone $REPO_URL -b $REPO_BRANCH openwrt
+        git clone $REPO_URL openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: 开启缓存
@@ -136,27 +121,36 @@ jobs:
         ccache: 'true'
         mixkey: 'openwrt21-cortexa53'
         prefix: ${{ github.workspace }}/openwrt
-                
-    - name: 加载feeds.conf.default & DIY_P1_SH
-      run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
-        chmod +x $DIY_P1_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P1_SH
 
-    - name: 更新 & 安装 feeds
+    - name: 更新 & 安装 feeds & 执行脚本
       run: |
         cd openwrt
-        ./scripts/feeds update -a
-        ./scripts/feeds install -a
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+        #git fetch https://github.com/padavanonly/immortalwrt-mt798x
+        #git merge FETCH_HEAD
+        ./scripts/feeds update -a && ./scripts/feeds install -a        
+        chmod +x $GITHUB_WORKSPACE/$DIY_SH && $GITHUB_WORKSPACE/$DIY_SH
 
-    - name: 加载config & DIY_P2_SH
+    - name: 导入补丁和配置
       run: |
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-        chmod +x $DIY_P2_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P2_SH
+        [ -e files ] && mv files openwrt/files
+        cat routine/rax3000m-emmc_FROS.config >> openwrt/.config
 
+   #- name: 设置无线控制界面样式
+      #if: env.USE_MTWIFI_CFG == 'true'
+      #run: |
+        #sed -i '/CONFIG_PACKAGE_luci-app-mtk=y/{N;N;N;s/CONFIG_PACKAGE_luci-app-mtk=y\nCONFIG_PACKAGE_luci-i18n-mtk-zh-cn=y\nCONFIG_PACKAGE_wifi-profile=y\nCONFIG_WIFI_NORMAL_SETTING=y/CONFIG_PACKAGE_lua-cjson=y\nCONFIG_PACKAGE_luci-app-mtwifi-cfg=y\nCONFIG_PACKAGE_luci-i18n-mtwifi-cfg-zh-cn=y\nCONFIG_PACKAGE_mtwifi-cfg=y/}' openwrt/.config
+
+    #- name: 设置是否使用 nx30pro eeprom
+      #if: env.USE_NX30PRO_EEPROM == 'true'
+      #run: |
+        #mkdir openwrt/target/linux/mediatek/mt7981/base-files/lib/firmware
+        #cp eeprom/nx30pro_eeprom.bin openwrt/target/linux/mediatek/mt7981/base-files/lib/firmware/MT7981_iPAiLNA_EEPROM.bin
+        #sed -i 's/caldata_extract_mmc/# caldata_extract_mmc/' openwrt/target/linux/mediatek/mt7981/base-files/lib/preinit/90_extract_caldata
+        #sed -i 's#./files/mt7981-default-eeprom/MT7981_iPAiLNA_EEPROM.bin##' openwrt/package/mtk/drivers/mt_wifi/Makefile
+ 
+##########  
     - name: 设置RAX3000M-eMMC的eMMC使用highspeed
       run: |
         cd openwrt
@@ -227,37 +221,31 @@ jobs:
         sed -i 's/CONFIG_PACKAGE_luci-i18n-mtwifi-cfg-zh-cn=y/CONFIG_PACKAGE_luci-i18n-mtk-zh-cn=y/g' .config
         sed -i 's/CONFIG_PACKAGE_mtwifi-cfg=y/CONFIG_PACKAGE_wifi-profile=y/g' .config
         sed -i 's/CONFIG_PACKAGE_lua-cjson=y/CONFIG_WIFI_NORMAL_SETTING=y/g' .config
+###############
 
     - name: 设置 dts 闪存频率
-      if: github.event.inputs.USE_52MHZ == 'true'
+      if: env.USE_52MHZ == 'true'
       run: |
         sed -i -e '/bus-width = <8>;/ a\	cap-mmc-highspeed;' openwrt/target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts
         sed -i 's/26000000/52000000/g' openwrt/target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts
         grep max-frequency openwrt/target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts
-
-
+ 
     - name: 取消编译dockerman
       if: github.event.inputs.NO_DOCKERMAN == 'true'
       run: |
         cd openwrt
         sed -i '/CONFIG_PACKAGE_luci-app-dockerman=y/d' .config
 
-    - name: SSH链接管理
-      uses: P3TERX/ssh2actions@v1.0.0
-      if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
-      env:
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-
-    - name: 下载安装包
-      id: package
+    - name: 下载文件
       run: |
         cd openwrt
+        chmod +x $GITHUB_WORKSPACE/$CLASH_CORE && $GITHUB_WORKSPACE/$CLASH_CORE
         make defconfig
-        make download -j$(nproc)
+        make download -j8 V=10
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
+#########
     - name: 编译固件
       id: compile
       run: |
@@ -290,32 +278,40 @@ jobs:
         echo "FILE_DATE=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
-    - name: 查看磁盘使用情况
+##############
+
+    - name: 空间使用情况
       if: (!cancelled())
       run: df -hT
 
-    - name: 整理文件并重命名
+    - name: 上传 bin 目录
+      uses: actions/upload-artifact@main
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
+      with:
+        name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+        path: openwrt/bin
+
+    - name: 整理文件
       id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
-      run: | 
-        mapfile -t devices < <(grep '^CONFIG_TARGET_DEVICE.*=y' openwrt/.config | sed -r 's/.*DEVICE_(.*)=y/\1/')
+      if: steps.compile.outputs.status == 'success'
+      run: |
         cd openwrt/bin/targets/*/*
+        rm -rf *.buildinfo 
+        rm -rf *.json 
+        rm -rf *.manifest 
         rm -rf packages
-        sudo -E apt-get -qq install rename
-        for val in "${devices[@]}"; do
-          rename "s/.*${val}/${{ env.FILE_DATE }}-${{ env.OPENWRT_NAME }}-${val}${{ env.WIFI_VERSION }}${{ env.EEPROM }}${{ env.BUILD_DOCKERMAN }}/" *
-          echo "$val"
-        done
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
-    - name: 打包上传固件到Actions Artifacts
+    - name: 上传固件目录
       uses: actions/upload-artifact@main
-      if: steps.organize.outputs.status == 'success' && !cancelled()
+      if: env.UPLOAD_FIRMWARE == 'true' && steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: ${{ env.FILE_DATE }}-${{ env.OPENWRT_NAME }}-${{ env.UPLOAD_TAG_NAME }}${{ env.WIFI_VERSION }}${{ env.EEPROM }}${{ env.BUILD_DOCKERMAN }}
+        name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
+
+     ###########
     - name: 生成固件Release标签
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
@@ -345,14 +341,15 @@ jobs:
         fi
         echo "release_tag=${{ env.FILE_DATE }}-${{ env.OPENWRT_NAME }}-${{ env.UPLOAD_TAG_NAME }}${{ env.WIFI_VERSION }}${{ env.EEPROM }}${{ env.BUILD_DOCKERMAN }}" >> $GITHUB_OUTPUT
         echo "status=success" >> $GITHUB_OUTPUT
-
-    - name: 发布固件至Release
-      uses: softprops/action-gh-release@v2
+  
+    - name: 上传固件发布
+      uses: softprops/action-gh-release@v1
       if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        files: ${{ env.FIRMWARE }}/*
-        name: ${{ env.FILE_DATE }}-${{ env.OPENWRT_NAME }}-${{ env.UPLOAD_TAG_NAME }}${{ env.WIFI_VERSION }}${{ env.EEPROM }}${{ env.BUILD_DOCKERMAN }}
         tag_name: ${{ steps.tag.outputs.release_tag }}
         body_path: release.txt
+        files: ${{ env.FIRMWARE }}/*
+
+  
