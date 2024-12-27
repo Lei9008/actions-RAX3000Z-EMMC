@@ -49,7 +49,7 @@ on:
      USE_52MHZ:
         description: 'Use 52MHz max-frequency'
         required: true
-        default: false
+        default: true
         type: boolean
      NO_DOCKERMAN:
         description: 'Not build luci-app-dockerman'
