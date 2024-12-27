@@ -73,12 +73,12 @@ env:
   OPENWRT_NAME: FROS
   UPLOAD_TAG_NAME: RAX3000Z增强版
   REPO_URL: https://github.com/destan19/immortalwrt-mt798x-fros
-  FREE_DISK_SH: use/scripts/free_disk_space.sh
-  FEEDS_CONF: use/scripts/feeds.conf.default
+  FREE_DISK_SH: FROS/scripts/free_disk_space.sh
+  FEEDS_CONF: FROS/scripts/feeds.conf.default
   RAX3000M_EMMC_DTS_FILE: target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts
-  ENV_SH: use/scripts/environment.sh
-  DIY_SH: use/scripts/FROS_diy.sh
-  CLASH_CORE: use/scripts/preset-clash-core.sh
+  ENV_SH: FROS/scripts/environment.sh
+  DIY_SH: FROS/scripts/FROS_diy.sh
+  CLASH_CORE: FROS/scripts/preset-clash-core.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: false
   UPLOAD_RELEASE: true
@@ -138,7 +138,7 @@ jobs:
     - name: 导入补丁和配置
       run: |
         [ -e files ] && mv files openwrt/files
-        cat routine/rax3000z-emmc_FROS.config >> openwrt/.config
+        cat FROS/rax3000z-emmc_FROS.config >> openwrt/.config
 
    #- name: 设置无线控制界面样式
       #if: env.USE_MTWIFI_CFG == 'true'
