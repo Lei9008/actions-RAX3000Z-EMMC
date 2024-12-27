@@ -43,7 +43,7 @@ on:
       APP_MTK:
         description: 'Use luci-app-mtk wifi config'
         required: true
-        default: false
+        default: true
         type: boolean
       USE_52MHZ:
         description: 'Use 52MHz max-frequency'
@@ -71,7 +71,7 @@ env:
   #REPO_BRANCH: openwrt-21.02
   FEEDS_CONF: use/feeds.conf.default
   RAX3000M_EMMC_DTS_FILE: target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts
-  CONFIG_FILE: routine/.config
+  CONFIG_FILE: routine/rax3000z-emmc_FROS.config
   DIY_SH: use/FROS_diy.sh
   #DIY_P1_SH: routine/diy-part1.sh
   #DIY_P2_SH: routine/diy-part2.sh
@@ -319,7 +319,7 @@ jobs:
       run: |
         touch release.txt
         echo "- 使用源码：${{ env.REPO_URL }}" >> release.txt
-        echo "- 使用分支：${{ env.REPO_BRANCH }}" >> release.txt
+        echo "- 使用分支：openwrt-21.02" >> release.txt
         echo "- 登录地址：${{ env.IP_ADDR }}" >> release.txt
         echo "- 使用WiFi驱动${{ github.event.inputs.WIFI_DRIVER }}" >> release.txt
         if [[ "${{ env.EEPROM }}" == '-eeprom' ]]; then
