@@ -16,12 +16,12 @@
 #sed -i 's|/bin/login|/bin/login -f root|g' feeds/packages/utils/ttyd/files/ttyd.config
 
 # Add a feed source
-#echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
-#echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
-#git clone https://github.com/messense/aliyundrive-webdav package/messense
+echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
+echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
+git clone https://github.com/messense/aliyundrive-webdav package/messense
 
 # 应用过滤
-git clone https://github.com/destan19/OpenAppFilter package/OpenAppFilter
+#git clone https://github.com/destan19/OpenAppFilter package/OpenAppFilter
 
 # 京东签到
 #git clone https://github.com/noiver/luci-app-jd-dailybonus package/luci-app-jd-dailybonus
