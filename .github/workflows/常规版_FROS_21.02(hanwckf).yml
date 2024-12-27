@@ -75,6 +75,7 @@ env:
   REPO_URL: https://github.com/destan19/immortalwrt-mt798x-fros
   FREE_DISK_SH: use/free_disk_space.sh
   FEEDS_CONF: use/feeds.conf.default
+  RAX3000M_EMMC_DTS_FILE: target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts
   ENV_SH: use/environment.sh
   DIY_SH: use/FROS_diy.sh
   CLASH_CORE: use/preset-clash-core.sh
