@@ -137,7 +137,7 @@ jobs:
     - name: 导入补丁和配置
       run: |
         [ -e files ] && mv files openwrt/files
-        cat routine/rax3000m-emmc_FROS.config >> openwrt/.config
+        cat routine/rax3000z-emmc_FROS.config >> openwrt/.config
 
    #- name: 设置无线控制界面样式
       #if: env.USE_MTWIFI_CFG == 'true'
