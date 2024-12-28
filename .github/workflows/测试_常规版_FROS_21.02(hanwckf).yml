@@ -55,6 +55,10 @@ on:
         required: true
         default: false
         type: boolean
+      ssh:
+        description: 'SSH connection to Actions'
+        required: false
+        default: 'false'
      
 #  schedule:
 #    - cron: 0 16 * * *
