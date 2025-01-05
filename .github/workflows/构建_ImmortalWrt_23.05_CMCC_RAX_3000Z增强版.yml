@@ -155,14 +155,17 @@ jobs:
         cat FROS/rax3000z-emmc.config >> openwrt/.config
 
    
+  
     - name: 设置是否使用 nx30pro eeprom
-     # if: env.USE_NX30PRO_EEPROM == 'true'
+      #if: env.USE_NX30PRO_EEPROM == 'true'
       if: github.event.inputs.EEPROM == 'true'
       run: |
-        mkdir openwrt/target/linux/mediatek/mt7981/base-files/lib/firmware
-        cp 25db/nx30pro_eeprom.bin openwrt/target/linux/mediatek/mt7981/base-files/lib/firmware/MT7981_iPAiLNA_EEPROM.bin
-        sed -i 's/caldata_extract_mmc/# caldata_extract_mmc/' openwrt/target/linux/mediatek/mt7981/base-files/lib/preinit/90_extract_caldata
-        sed -i 's#./files/mt7981-default-eeprom/MT7981_iPAiLNA_EEPROM.bin##' openwrt/package/mtk/drivers/mt_wifi/Makefile
+        mkdir -p openwrt/target/linux/mediatek/filogic/base-files/lib/firmware/mediatek
+        cp eeprom/nx30pro_eeprom.bin openwrt/target/linux/mediatek/filogic/base-files/lib/firmware/mediatek
+        sed -i -e '/caldata_extract_mmc "factory" 0x0 0x1000/ a\           cp /lib/firmware/mediatek/nx30pro_eeprom.bin /lib/firmware/mediatek/mt7981_eeprom_mt7976_dbdc.bin' openwrt/target/linux/mediatek/filogic/base-files/etc/hotplug.d/firmware/11-mt76-caldata
+
+
+      
 ################              
    
    
