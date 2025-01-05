@@ -73,7 +73,7 @@ env:
   FREE_DISK_SH: FROS/scripts/free_disk_space.sh
   FEEDS_CONF: FROS/scripts/feeds.conf.default
   #RAX3000M_EMMC_DTS_FILE: target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts
-  RAX3000M_EMMC_DTS_FILE: target/linux/mediatek/dts/mt7981b-cmcc-rax3000m-emmc-ubootmod.dts
+  #RAX3000M_EMMC_DTS_FILE: target/linux/mediatek/dts/mt7981b-cmcc-rax3000m-emmc-ubootmod.dts
   ENV_SH: FROS/scripts/environment.sh
   DIY_SH: FROS/scripts/FROS_diy.sh
   CLASH_CORE: FROS/scripts/preset-clash-core.sh
