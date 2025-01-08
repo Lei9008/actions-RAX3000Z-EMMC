@@ -6,10 +6,10 @@
 sed -i 's/192.168.1.1/192.168.5.1/g' package/base-files/files/bin/config_generate
 
 #web登陆密码从空密码修改为 password
-#sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.::0:99999:7:::/g' package/base-files/files/etc/shadow
+sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.::0:99999:7:::/g' package/base-files/files/etc/shadow
 
 #修改主机名
-#sed -i "s/hostname='OpenWrt'/hostname='Rax3000z'/g" package/base-files/files/bin/config_generate
+sed -i "s/hostname='OpenWrt'/hostname='Rax3000z'/g" package/base-files/files/bin/config_generate
 
 
 ##-----------------Del duplicate packages------------------
@@ -34,7 +34,8 @@ sed -i '/"mediatek"\/\*|\"mvebu"\/\*/{n; s/.*/\tcpu_freq="1.3GHz" ;;/}' package/
 
 # Add a feed source(添加源)
 #echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
-#echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
+
+echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
 
 # 阿里云服务
 git clone https://github.com/messense/aliyundrive-webdav package/messense
