@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 ###############手动修改##############
-name: Test构建_FROS_21.02（基于H大）CMCC_RAX_3000Z增强版
+name: 1.构建_FROS_21.02（基于H大）CMCC_RAX_3000Z增强版
 
 permissions: write-all
 # 开启写权限，防止无法上传到release
@@ -366,6 +366,34 @@ jobs:
         body_path: release.txt
         files: ${{ env.FIRMWARE }}/*
 
+    - name: 删除旧发布的固件
+      uses: dev-drprasad/delete-older-releases@v0.2.1
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' && !cancelled()
+      with:
+        keep_latest: 7
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: 删除工作流运行(Delete workflow runs)
+      uses: GitRML/delete-workflow-runs@main
+      with:
+        retain_days: 1
+        keep_minimum_runs: 3
+        token: ${{ secrets.GH_TOKEN }}
+        body: |
+
+            ### OpenWrt Image information
+            - Default IP: 192.168.5.1
+            - Default username: root
+            - Default password: password
+            - Default WIFI name: HiWiFi
+            - Default WIFI password: he1235678
+            ### Install to EMMC
+            - Login to OpenWrt → System → Amlogic Service → Install OpenWrt
+            ### OpenWrt Image Verification
+            - sha256sum
+    
 
 
 
