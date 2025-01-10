@@ -43,6 +43,7 @@ sed -i '/"mediatek"\/\*|\"mvebu"\/\*/{n; s/.*/\tcpu_freq="1.3GHz" ;;/}' package/
 # Add a feed source(添加源)
 #echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 
+# passwall
 echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
 
 # 阿里云服务
