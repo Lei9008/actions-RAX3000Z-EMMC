@@ -14,7 +14,7 @@ sed -i "s/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.::0:99999:7
 ##添加自己的插件库
 # echo -e "\nsrc-git extraipk https://github.com/mzwrt/extra_ipk" >> feeds.conf.default
 ##更改主机名
-sed -i "s/hostname='.*'/hostname='RAX 3000Z'/g" package/base-files/files/bin/config_generate
+sed -i "s/hostname='.*'/hostname='RAX3000Z'/g" package/base-files/files/bin/config_generate
 
 ##WiFi
 #sed -i "s/MT7981_AX3000_2.4G/HiWiFi/g" package/mtk/drivers/wifi-profile/files/mt7981/mt7981.dbdc.b0.dat
