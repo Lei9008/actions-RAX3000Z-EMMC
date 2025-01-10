@@ -20,7 +20,7 @@ sed -i "s/hostname='.*'/hostname='RAX3000Z'/g" package/base-files/files/bin/conf
 #sed -i "s/MT7981_AX3000_2.4G/HiWiFi/g" package/mtk/drivers/wifi-profile/files/mt7981/mt7981.dbdc.b0.dat
 #sed -i "s/MT7981_AX3000_5G/HiWiFi_5G/g" package/mtk/drivers/wifi-profile/files/mt7981/mt7981.dbdc.b1.dat
 
-##New WiFi
+##修改WiFi名
 sed -i "s/ImmortalWrt-2.4G/HiWiFi/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 sed -i "s/ImmortalWrt-5G/HiWiFi_5G/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 
