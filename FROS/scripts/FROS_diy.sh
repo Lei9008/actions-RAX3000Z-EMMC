@@ -10,7 +10,16 @@ sed -i 's/192.168.1.1/192.168.5.1/g' package/base-files/files/bin/config_generat
 
 #修改主机名
 #sed -i "s/hostname='OpenWrt'/hostname='Rax3000z'/g" package/base-files/files/bin/config_generate
+##更改主机名
+sed -i "s/hostname='.*'/hostname='Rax3000z'/g" package/base-files/files/bin/config_generate
 
+##WiFi
+sed -i "s/MT7981_AX3000_2.4G/HiWiFi_2.4G/g" package/mtk/drivers/wifi-profile/files/mt7981/mt7981.dbdc.b0.dat
+sed -i "s/MT7981_AX3000_5G/HiWiFi_5G/g" package/mtk/drivers/wifi-profile/files/mt7981/mt7981.dbdc.b1.dat
+
+##New WiFi
+sed -i "s/HiWiFi-2.4G/HiWiFi_2.4G/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
+sed -i "s/HiWiFi-5G/HiWiFi_5G/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 
 ##-----------------Del duplicate packages------------------
 #rm -rf feeds/packages/net/open-app-filter
