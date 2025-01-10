@@ -12,7 +12,7 @@ sed -i 's/192.168.1.1/192.168.5.1/g' package/base-files/files/bin/config_generat
 #sed -i "s/hostname='OpenWrt'/hostname='Rax3000z'/g" package/base-files/files/bin/config_generate
 
 ##添加自己的插件库
-echo -e "\nsrc-git extraipk https://github.com/mzwrt/extra_ipk" >> feeds.conf.default
+# echo -e "\nsrc-git extraipk https://github.com/mzwrt/extra_ipk" >> feeds.conf.default
 ##更改主机名
 sed -i "s/hostname='.*'/hostname='Rax3000z'/g" package/base-files/files/bin/config_generate
 
@@ -72,7 +72,7 @@ git clone https://github.com/lwb1978/openwrt-gecoosac package/openwrt-gecoosac
 git clone https://github.com/kongfl888/luci-app-adguardhome package/luci-app-adguardhome
 
 # MosDns
-#git clone https://github.com/sbwml/luci-app-mosdns package/luci-app-mosdns
+git clone https://github.com/sbwml/luci-app-mosdns package/luci-app-mosdns
 
 # alist文件列表
 git clone https://github.com/sbwml/luci-app-alist package/luci-app-alist
