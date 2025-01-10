@@ -9,7 +9,7 @@ sed -i 's/192.168.1.1/192.168.5.1/g' package/base-files/files/bin/config_generat
 #sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.::0:99999:7:::/g' package/base-files/files/etc/shadow
 
 #修改主机名
-#sed -i "s/hostname='OpenWrt'/hostname='Rax3000z'/g" package/base-files/files/bin/config_generate
+#sed -i "s/hostname='ImmortalWrt'/hostname='Rax3000z'/g" package/base-files/files/bin/config_generate
 
 ##添加自己的插件库
 # echo -e "\nsrc-git extraipk https://github.com/mzwrt/extra_ipk" >> feeds.conf.default
