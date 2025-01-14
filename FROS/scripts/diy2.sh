@@ -37,7 +37,7 @@ sed -i "s/#option interval '10'/option interval '10'/g" /etc/config/irqbalance
 exit 0
 EOL
 
-cat <<EOL >> package/base-files/files/etc/uci-defaults/99-MzWrt-settings
+cat <<EOL >> package/base-files/files/etc/uci-defaults/99-Lei9008-settings
 #!/bin/sh
 
 # 设置主机名
