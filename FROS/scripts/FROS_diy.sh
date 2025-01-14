@@ -11,6 +11,19 @@ sed -i "s/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.::0:99999:7
 #修改主机名
 sed -i "s/hostname='.*'/hostname='RAX3000Z'/g" package/base-files/files/bin/config_generate
 
+##加入作者信息
+sed -i "s/DISTRIB_DESCRIPTION='*.*'/DISTRIB_DESCRIPTION='Lei9008 - '/g"  package/lean/default-settings/files/zzz-default-settings
+echo -e "\e[38;5;21m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\e[0m
+\e[38;5;81m\    \e[38;5;222m____                 _       __     __  / \e[0m
+\e[38;5;81m\   \e[38;5;190m/ __ \____  ___  ____| |     / /____/ /_ / \e[0m
+\e[38;5;81m\  \e[38;5;45m/ / / / __ \/ _ \/ __ \ | /| / / ___/ __/ / \e[0m
+\e[38;5;81m\ \e[38;5;68m/ /_/ / /_/ /  __/ / / / |/ |/ / /  / /_   / \e[0m
+\e[38;5;81m\ \e[38;5;110m\____/ .___/\___/_/ /_/|__/|__/_/   \__/   / \e[0m
+\e[38;5;81m\     \e[38;5;214m/_/                                    / \e[0m
+\e[38;5;81m\  \e[38;5;33mM Z W r t  By  \e[38;5;82mhttps://github.com/Lei9008\e[0m   / \e[0m
+\e[38;5;21m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\e[0m" > package/base-files/files/etc/banner
+
+
 ##WiFi
 #sed -i "s/MT7981_AX3000_2.4G/HiWiFi/g" package/mtk/drivers/wifi-profile/files/mt7981/mt7981.dbdc.b0.dat
 #sed -i "s/MT7981_AX3000_5G/HiWiFi_5G/g" package/mtk/drivers/wifi-profile/files/mt7981/mt7981.dbdc.b1.dat
