@@ -75,7 +75,7 @@ env:
   RAX3000M_EMMC_DTS_FILE: target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts
   ENV_SH: FROS/scripts/environment.sh
   DIY_SH: FROS/scripts/FROS_diy.sh
-  DIY_P1_SH: FROS/scripts/diy1.sh
+  #DIY_P1_SH: FROS/scripts/diy1.sh
   #DIY_P2_SH: FROS/scripts/diy2.sh
   CLASH_CORE: FROS/scripts/preset-clash-core.sh
   UPLOAD_BIN_DIR: false
@@ -137,25 +137,17 @@ jobs:
         prefix: ${{ github.workspace }}/openwrt
 
 #################
-    - name: 加载feeds.conf.default & DIY_P1_SH
-      run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
-        chmod +x $DIY_P1_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P1_SH
-
-    - name: 更新 & 安装 feeds
+    - name: 更新 & 安装 feeds & 执行脚本
       run: |
         cd openwrt
-        ./scripts/feeds update -a
-        ./scripts/feeds install -a
-
-    - name: 加载config & DIY_SH
-      run: |
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-        chmod +x $DIY_P2_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_SH
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+        #git fetch https://github.com/padavanonly/immortalwrt-mt798x
+        #git merge FETCH_HEAD
+        ./scripts/feeds update -a && ./scripts/feeds install -a        
+        chmod +x $GITHUB_WORKSPACE/$DIY_SH && $GITHUB_WORKSPACE/$DIY_SH
+        #chmod +x $GITHUB_WORKSPACE/$DIY_P1_SH && $GITHUB_WORKSPACE/$DIY_P1_SH
+        #chmod +x $GITHUB_WORKSPACE/$DIY_P2_SH && $GITHUB_WORKSPACE/$DIY_P2_SH
 
   
  
