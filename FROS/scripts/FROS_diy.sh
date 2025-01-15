@@ -16,10 +16,6 @@ sed -i "s/DISTRIB_DESCRIPTION='*.*'/DISTRIB_DESCRIPTION='LeiWrt-$(date +%Y%m%d)'
 sed -i "s/DISTRIB_REVISION='*.*'/DISTRIB_REVISION=' By Lei'/g" package/base-files/files/etc/openwrt_release
 cp -af feeds/extraipk/patch/diy/banner-Leiwrt  package/base-files/files/etc/banner
 
-sed -i "2iuci set istore.istore.channel='Lei_wrt'" package/emortal/default-settings/files/99-default-settings
-sed -i "3iuci commit istore" package/emortal/default-settings/files/99-default-settings
-sed -i.bak "s,mirrors.vsean.net/openwrt,mirrors.vsean.net/openwrt,g" package/emortal/default-settings/files/99-default-settings
-
 ##修改WiFi名
 sed -i "s/ImmortalWrt-2.4G/HiWiFi/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 sed -i "s/ImmortalWrt-5G/HiWiFi_5G/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
