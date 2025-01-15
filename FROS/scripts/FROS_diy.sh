@@ -12,26 +12,19 @@ sed -i "s/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.::0:99999:7
 sed -i "s/hostname='.*'/hostname='RAX3000Z'/g" package/base-files/files/bin/config_generate
 
 ##加入作者信息
-sed -i "s/DISTRIB_DESCRIPTION='*.*'/DISTRIB_DESCRIPTION='Lei9008 - '/g"  package/lean/default-settings/files/zzz-default-settings
-echo -e "\e[38;5;21m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\e[0m
-\e[38;5;81m\    \e[38;5;222m____                 _       __     __  / \e[0m
-\e[38;5;81m\   \e[38;5;190m/ __ \____  ___  ____| |     / /____/ /_ / \e[0m
-\e[38;5;81m\  \e[38;5;45m/ / / / __ \/ _ \/ __ \ | /| / / ___/ __/ / \e[0m
-\e[38;5;81m\ \e[38;5;68m/ /_/ / /_/ /  __/ / / / |/ |/ / /  / /_   / \e[0m
-\e[38;5;81m\ \e[38;5;110m\____/ .___/\___/_/ /_/|__/|__/_/   \__/   / \e[0m
-\e[38;5;81m\     \e[38;5;214m/_/                                    / \e[0m
-\e[38;5;81m\  \e[38;5;33mM Z W r t  By  \e[38;5;82mhttps://github.com/Lei9008\e[0m   / \e[0m
-\e[38;5;21m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\e[0m" > package/base-files/files/etc/banner
+sed -i "s/DISTRIB_DESCRIPTION='*.*'/DISTRIB_DESCRIPTION='LeiWrt-$(date +%Y%m%d)'/g"  package/base-files/files/etc/openwrt_release
+sed -i "s/DISTRIB_REVISION='*.*'/DISTRIB_REVISION=' By Lei'/g" package/base-files/files/etc/openwrt_release
+cp -af feeds/extraipk/patch/diy/banner-Leiwrt  package/base-files/files/etc/banner
 
-
-##WiFi
-#sed -i "s/MT7981_AX3000_2.4G/HiWiFi/g" package/mtk/drivers/wifi-profile/files/mt7981/mt7981.dbdc.b0.dat
-#sed -i "s/MT7981_AX3000_5G/HiWiFi_5G/g" package/mtk/drivers/wifi-profile/files/mt7981/mt7981.dbdc.b1.dat
+sed -i "2iuci set istore.istore.channel='Lei_wrt'" package/emortal/default-settings/files/99-default-settings
+sed -i "3iuci commit istore" package/emortal/default-settings/files/99-default-settings
+sed -i.bak "s,mirrors.vsean.net/openwrt,mirrors.vsean.net/openwrt,g" package/emortal/default-settings/files/99-default-settings
 
 ##修改WiFi名
 sed -i "s/ImmortalWrt-2.4G/HiWiFi/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 sed -i "s/ImmortalWrt-5G/HiWiFi_5G/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 
+#############
 
 ##-----------------Del duplicate packages------------------
 #rm -rf feeds/packages/net/open-app-filter
