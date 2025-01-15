@@ -44,7 +44,7 @@ sed -i '/"mediatek"\/\*|\"mvebu"\/\*/{n; s/.*/\tcpu_freq="1.3GHz" ;;/}' package/
 
 # Add a feed source(添加源)
 #添加插件源
-sed -i '$a src-git Lei_package https://github.com/Lei9008/openwrt_package_Lite' feeds.conf.default
+echo -e "\nsrc-git Lei9008_package https://github.com/Lei9008/openwrt_package_Lite" >> feeds.conf.default
 
 #echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 
