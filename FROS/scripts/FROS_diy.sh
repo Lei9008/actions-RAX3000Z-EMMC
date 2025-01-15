@@ -14,7 +14,7 @@ sed -i "s/hostname='.*'/hostname='RAX3000Z'/g" package/base-files/files/bin/conf
 ##加入作者信息
 sed -i "s/DISTRIB_DESCRIPTION='*.*'/DISTRIB_DESCRIPTION='LeiWrt-$(date +%Y%m%d)'/g"  package/base-files/files/etc/openwrt_release
 sed -i "s/DISTRIB_REVISION='*.*'/DISTRIB_REVISION=' By Lei'/g" package/base-files/files/etc/openwrt_release
-cp -af feeds/extraipk/patch/diy/banner-Leiwrt  package/base-files/files/etc/banner
+#cp -af feeds/extraipk/patch/diy/banner-Leiwrt  package/base-files/files/etc/banner
 
 ##修改WiFi名
 sed -i "s/ImmortalWrt-2.4G/HiWiFi/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
@@ -44,7 +44,7 @@ sed -i '/"mediatek"\/\*|\"mvebu"\/\*/{n; s/.*/\tcpu_freq="1.3GHz" ;;/}' package/
 
 # Add a feed source(添加源)
 #添加插件源
-echo -e "\nsrc-git Lei9008_package https://github.com/Lei9008/openwrt_package_Lite" >> feeds.conf.default
+#echo -e "\nsrc-git Lei9008_package https://github.com/Lei9008/openwrt_package_Lite" >> feeds.conf.default
 
 #echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 
