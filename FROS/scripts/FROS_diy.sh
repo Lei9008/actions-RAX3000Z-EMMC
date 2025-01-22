@@ -46,10 +46,10 @@ sed -i '/"mediatek"\/\*|\"mvebu"\/\*/{n; s/.*/\tcpu_freq="1.3GHz" ;;/}' package/
 #添加插件源
 #echo -e "\nsrc-git Lei9008_package https://github.com/Lei9008/openwrt_package_Lite" >> feeds.conf.default
 ## clone kiddin9/openwrt-packages仓库
-git clone https://github.com/kiddin9/kwrt-packages package/new/openwrt-packages
+#git clone https://github.com/kiddin9/kwrt-packages package/new/openwrt-packages
 ##添加自己的插件库
-echo -e "\nsrc-git extraipk https://github.com/liker5092/extra_ipk" >> feeds.conf.default
-echo "src-git kenzo https://github.com/kenzok8/openwrt-packages" >> ./feeds.conf.default
+#echo -e "\nsrc-git extraipk https://github.com/liker5092/extra_ipk" >> feeds.conf.default
+#echo "src-git kenzo https://github.com/kenzok8/openwrt-packages" >> ./feeds.conf.default
 
 
 #echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
