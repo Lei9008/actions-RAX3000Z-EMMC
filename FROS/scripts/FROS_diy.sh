@@ -49,6 +49,8 @@ sed -i '/"mediatek"\/\*|\"mvebu"\/\*/{n; s/.*/\tcpu_freq="1.3GHz" ;;/}' package/
 git clone https://github.com/kiddin9/kwrt-packages package/new/openwrt-packages
 ##添加自己的插件库
 echo -e "\nsrc-git extraipk https://github.com/liker5092/extra_ipk" >> feeds.conf.default
+echo "src-git kenzo https://github.com/kenzok8/openwrt-packages" >> ./feeds.conf.default
+
 
 #echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 
