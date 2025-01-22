@@ -6,4 +6,5 @@ src-git-full telephony https://github.com/openwrt/telephony.git;openwrt-21.02
 src-git-full Lei9008_package https://github.com/Lei9008/openwrt_package_Lite.git;Lei9008_package
 
 ## clone kiddin9/openwrt-packages仓库
-git clone https://github.com/kiddin9/kwrt-packages package/new/openwrt-packages
+src-git-full kiddin9 https://github.com/kiddin9/kwrt-packages.git;openwrt-packages
+src-git-full kenzo https://github.com/kenzok8/openwrt-packages.git;openwrt-packages
