@@ -11,7 +11,7 @@ sed -i "s/hostname='.*'/hostname='RAX3000Z'/g" package/base-files/files/bin/conf
 
 ##加入作者信息
 sed -i "s/DISTRIB_DESCRIPTION='*.*'/DISTRIB_DESCRIPTION='LeiWrt-$(date +%Y%m%d)'/g"  package/base-files/files/etc/openwrt_release
-sed -i "s/DISTRIB_REVISION='*.*'/DISTRIB_REVISION=' By Lei9008'/g" package/base-files/files/etc/openwrt_release
+sed -i "s/DISTRIB_REVISION='*.*'/DISTRIB_REVISION=' By Lei'/g" package/base-files/files/etc/openwrt_release
 #cp -af feeds/extraipk/patch/diy/banner-Leiwrt  package/base-files/files/etc/banner
 
 ##修改WiFi名
