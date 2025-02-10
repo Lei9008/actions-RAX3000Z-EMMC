@@ -6,14 +6,14 @@
 sed -i 's/192.168.1.1/192.168.5.1/g' package/base-files/files/bin/config_generate
 
 #web登陆密码从空密码修改为 password
-#sed -i "s/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.::0:99999:7:::/g" package/base-files/files/etc/shadow
+sed -i "s/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.::0:99999:7:::/g"  package/base-files/files/etc/shadow
 
 #修改主机名
 sed -i "s/hostname='.*'/hostname='RAX3000Z'/g" package/base-files/files/bin/config_generate
 
 ##加入作者信息
 sed -i "s/DISTRIB_DESCRIPTION='*.*'/DISTRIB_DESCRIPTION='LeiWrt-$(date +%Y%m%d)'/g"  package/base-files/files/etc/openwrt_release
-sed -i "s/DISTRIB_REVISION='*.*'/DISTRIB_REVISION=' By Lei'/g" package/base-files/files/etc/openwrt_release
+sed -i "s/DISTRIB_REVISION='*.*'/DISTRIB_REVISION=' By Lei9008'/g" package/base-files/files/etc/openwrt_release
 #cp -af feeds/extraipk/patch/diy/banner-Leiwrt  package/base-files/files/etc/banner
 
 ##修改WiFi名
@@ -46,7 +46,7 @@ sed -i '/"mediatek"\/\*|\"mvebu"\/\*/{n; s/.*/\tcpu_freq="1.3GHz" ;;/}' package/
 #添加插件源
 #echo -e "\nsrc-git Lei9008_package https://github.com/Lei9008/openwrt_package_Lite" >> feeds.conf.default
 ## clone kiddin9/openwrt-packages仓库
-#git clone https://github.com/kiddin9/kwrt-packages package/new/openwrt-packages
+echo "src-git openwrt_kiddin9 https://dl.openwrt.ai/latest/packages/aarch64_cortex-a53/kiddin9" >> feeds.conf.default
 ##添加自己的插件库
 #echo -e "\nsrc-git extraipk https://github.com/liker5092/extra_ipk" >> feeds.conf.default
 #echo "src-git kenzo https://github.com/kenzok8/openwrt-packages" >> ./feeds.conf.default
