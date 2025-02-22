@@ -42,6 +42,7 @@ sed -i '/"mediatek"\/\*|\"mvebu"\/\*/{n; s/.*/\tcpu_freq="1.3GHz" ;;/}' package/
 
 # Add a feed source(添加源)
 #添加插件源
+echo -e "\nsrc-git Lei9008_package https://github.com/Lei9008/openwrt_package_Lite.git" >> feeds.conf.default
 #echo -e "\nsrc-git Lei9008_package https://github.com/Lei9008/openwrt_package_Lite" >> feeds.conf.default
 ## clone kiddin9/openwrt-packages仓库
 echo "src-git openwrt_kiddin9 https://dl.openwrt.ai/latest/packages/aarch64_cortex-a53/kiddin9" >> feeds.conf.default
