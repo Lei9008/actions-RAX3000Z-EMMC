@@ -51,10 +51,15 @@ echo "src-git openwrt_kiddin9 https://dl.openwrt.ai/latest/packages/aarch64_cort
 #echo "src-git kenzo https://github.com/kenzok8/openwrt-packages" >> ./feeds.conf.default
 
 
+
 #echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 
 # passwall
 echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
+
+
+# 应用过滤
+git clone https://github.com/destan19/OpenAppFilter.git package/OpenAppFilter
 
 # 阿里云服务
 git clone https://github.com/messense/aliyundrive-webdav package/messense
