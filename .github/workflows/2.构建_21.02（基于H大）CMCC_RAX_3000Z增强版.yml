@@ -158,7 +158,7 @@ jobs:
     - name: 导入补丁和配置
       run: |
         [ -e files ] && mv files openwrt/files
-        cat FROS/rax3000z-emmc_FROS.config >> openwrt/.config
+        cat FROS/rax3000z-emmc.config >> openwrt/.config
 
    
     - name: 设置是否使用 nx30pro eeprom
