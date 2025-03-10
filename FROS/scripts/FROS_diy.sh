@@ -46,10 +46,12 @@ echo -e "\nsrc-git Lei9008_package https://github.com/Lei9008/openwrt_package_Li
 #echo -e "\nsrc-git Lei9008_package https://github.com/Lei9008/openwrt_package_Lite" >> feeds.conf.default
 ## clone kiddin9/openwrt-packages仓库
 echo "src-git openwrt_kiddin9 https://dl.openwrt.ai/latest/packages/aarch64_cortex-a53/kiddin9" >> feeds.conf.default
+
+echo -e "\nsrc-git extraipk https://github.com/stwrnet/extra-ipk" >> feeds.conf.default
+
 ##添加自己的插件库
 #echo -e "\nsrc-git extraipk https://github.com/liker5092/extra_ipk" >> feeds.conf.default
 #echo "src-git kenzo https://github.com/kenzok8/openwrt-packages" >> ./feeds.conf.default
-
 
 
 #echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
