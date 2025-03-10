@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 ###############手动修改##############
-name: 1.构建_FROS_21.02（基于H大）CMCC_RAX_3000Z增强版
+name: 2.构建_FROS_21.02（基于H大）CMCC_RAX_3000Z增强版
 
 permissions: write-all
 # 开启写权限，防止无法上传到release
