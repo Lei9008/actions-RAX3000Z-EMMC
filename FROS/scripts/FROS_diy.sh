@@ -59,9 +59,8 @@ echo -e "\nsrc-git extraipk https://github.com/stwrnet/extra-ipk" >> feeds.conf.
 # passwall
 echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
 
-
 # 应用过滤
-git clone https://github.com/destan19/OpenAppFilter.git package/OpenAppFilter
+#git clone https://github.com/destan19/OpenAppFilter.git package/OpenAppFilter
 
 # 阿里云服务
 git clone https://github.com/messense/aliyundrive-webdav package/messense
