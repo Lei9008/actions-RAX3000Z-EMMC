@@ -78,7 +78,7 @@ env:
   REPO_BRANCH: openwrt-21.02-fros
   FEEDS_CONF: FROS1/scripts/feeds.conf.default
   RAX3000M_EMMC_DTS_FILE: target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts
-  CONFIG_FILE: FROS1/.FROS_mtwifi-cfg.config
+  CONFIG_FILE: FROS1/rax3000z-emmc_FROS.config
   DIY_P1_SH: FROS1/scripts/diy-part1.sh
   DIY_P2_SH: FROS1/scripts/diy-part2.sh
   SSH_ACTIONS: false
