@@ -1,3 +1,5 @@
+src-git-full packages https://github.com/NekokeCore/immortalwrt-mt798x-packages.git;openwrt-21.02
+src-git-full luci https://github.com/NekokeCore/immortalwrt-mt798x-luci.git;openwrt-21.02
 #src-git-full packages https://github.com/immortalwrt/packages.git;openwrt-21.02
 #src-git-full luci https://github.com/immortalwrt/luci.git;openwrt-21.02
 src-git-full packages https://github.com/lgs2007m/immortalwrt-mt798x-packages.git;openwrt-21.02
