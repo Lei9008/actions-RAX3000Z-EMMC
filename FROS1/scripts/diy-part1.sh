@@ -36,7 +36,7 @@ src-git-full extraipk https://github.com/liker5092/extra_ipk;openwrt-packages
 #echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 
 # passwall
-echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
+#echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
 
 # 阿里云服务
 git clone https://github.com/messense/aliyundrive-webdav package/messense
