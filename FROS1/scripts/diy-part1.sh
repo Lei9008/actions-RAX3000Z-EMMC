@@ -18,14 +18,12 @@
 
 # Add a feed source(添加源)
 #添加插件源
+echo -e "\nsrc-git Lei9008_package https://github.com/Lei9008/openwrt_package_Lite.git" >> feeds.conf.default
 #echo -e "\nsrc-git Lei9008_package https://github.com/Lei9008/openwrt_package_Lite" >> feeds.conf.default
-#sed -i '$a src-git Lei9008_package https://github.com/mzwrt/mzwrt_package_Lite' feeds.conf.default
-##添加自己的插件库
-#echo -e "\nsrc-git extraipk https://github.com/liker5092/extra_ipk" >> feeds.conf.default
-#echo "src-git kenzo https://github.com/kenzok8/openwrt-packages" >> ./feeds.conf.default
-##添加自己的插件库
-src-git-full Lei9008_package  sed -i '$a src-git mzwrt_package https://github.com/mzwrt/mzwrt_package' feeds.conf.default.git;Lei9008_package
-
+sed -i '$a src-git mzwrt_package https://github.com/mzwrt/mzwrt_package' feeds.conf.default
+## clone kiddin9/openwrt-packages仓库
+echo "src-git openwrt_kiddin9 https://dl.openwrt.ai/latest/packages/aarch64_cortex-a53/kiddin9" >> feeds.conf.default
+echo -e "\nsrc-git extraipk https://github.com/stwrnet/extra-ipk" >> feeds.conf.default
 sed -i '$a src-git mzwrt_package https://github.com/mzwrt/mzwrt_package' feeds.conf.default
 ## clone kiddin9/openwrt-packages仓库
 src-git-full kiddin9 https://github.com/kiddin9/kwrt-packages.git;openwrt-packages
