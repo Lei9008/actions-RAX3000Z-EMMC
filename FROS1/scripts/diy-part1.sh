@@ -23,7 +23,7 @@ echo -e "\nsrc-git Lei9008_package https://github.com/Lei9008/openwrt_package_Li
 #sed -i '$a src-git mzwrt_package https://github.com/mzwrt/mzwrt_package' feeds.conf.default
 ## clone kiddin9/openwrt-packages仓库
 echo "src-git openwrt_kiddin9 https://dl.openwrt.ai/latest/packages/aarch64_cortex-a53/kiddin9" >> feeds.conf.default
-echo -e "\nsrc-git extraipk https://github.com/stwrnet/extra-ipk" >> feeds.conf.default
+#echo -e "\nsrc-git extraipk https://github.com/stwrnet/extra-ipk" >> feeds.conf.default
 #sed -i '$a src-git mzwrt_package https://github.com/mzwrt/mzwrt_package' feeds.conf.default
 ## clone kiddin9/openwrt-packages仓库
 #src-git-full kiddin9 https://github.com/kiddin9/kwrt-packages.git;openwrt-packages
