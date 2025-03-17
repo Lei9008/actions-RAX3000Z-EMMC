@@ -59,7 +59,7 @@ git clone https://github.com/lwb1978/openwrt-gecoosac package/openwrt-gecoosac
 git clone https://github.com/kongfl888/luci-app-adguardhome package/luci-app-adguardhome
 
 # MosDns
-#git clone https://github.com/sbwml/luci-app-mosdns package/luci-app-mosdns
+git clone https://github.com/sbwml/luci-app-mosdns package/luci-app-mosdns
 
 # alist文件列表
-#git clone https://github.com/sbwml/luci-app-alist package/luci-app-alist
+git clone https://github.com/sbwml/luci-app-alist package/luci-app-alist
