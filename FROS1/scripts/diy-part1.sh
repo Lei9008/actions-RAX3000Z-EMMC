@@ -26,8 +26,8 @@
 #sed -i '$a src-git mzwrt_package https://github.com/mzwrt/mzwrt_package' feeds.conf.default
 ## clone kiddin9/openwrt-packages仓库
 #sed -i '$asrc-git-full kiddin9 https://github.com/kiddin9/kwrt-packages.git' feeds.conf.default
-#sed -i '$asrc-git-full kenzo https://github.com/kenzok8/openwrt-packages.git' feeds.conf.default
-#sed -i '$asrc-git-full extraipk https://github.com/liker5092/extra_ipk' feeds.conf.default
+sed -i '$asrc-git-full kenzo https://github.com/kenzok8/openwrt-packages.git' feeds.conf.default
+sed -i '$asrc-git-full extraipk https://github.com/liker5092/extra_ipk' feeds.conf.default
 
 
 
