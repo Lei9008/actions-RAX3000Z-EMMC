@@ -75,6 +75,7 @@ env:
   FEEDS_CONF: FROS/scripts/feeds.conf.default
   RAX3000M_EMMC_DTS_FILE: target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts
   ENV_SH: FROS/scripts/environment.sh
+  CONFIG_FILE: FROS/rax3000z-emmc_FROS.config
  # DIY_SH: FROS/scripts/FROS_diy.sh
   DIY_P1_SH: FROS1/scripts/diy-part1.sh
   DIY_P2_SH: FROS1/scripts/diy-part2.sh
