@@ -330,13 +330,7 @@ jobs:
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
-    - name: 打包上传固件到Actions Artifacts
-      uses: actions/upload-artifact@main
-      if: steps.organize.outputs.status == 'success' && !cancelled()
-      with:
-        name: ${{ env.FILE_DATE }}-${{ env.OPENWRT_NAME }}-${{ env.UPLOAD_TAG_NAME }}${{ env.WIFI_VERSION }}${{ env.EEPROM }}${{ env.BUILD_DOCKERMAN }}
-        path: ${{ env.FIRMWARE }}
-
+   
     - name: 生成固件Release标签
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
@@ -377,25 +371,13 @@ jobs:
         files: ${{ env.FIRMWARE }}/*
 
 
-    - name: 删除工作流运行(Delete workflow runs)
-      uses: GitRML/delete-workflow-runs@main
+    - name: 发布固件至Release
+      uses: softprops/action-gh-release@v2.1.0
+      if: steps.tag.outputs.status == 'success' && !cancelled()
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        retain_days: 1
-        keep_minimum_runs: 3
-        token: ${{ secrets.GH_TOKEN }}
-        body: |
-
-            ### OpenWrt Image information
-            - Default IP: 192.168.5.1
-            - Default username: root
-            - Default password: password
-            - Default WIFI name: HiWiFi
-            - Default WIFI password: he1235678
-            ### Install to EMMC
-            - Login to OpenWrt → System → Amlogic Service → Install OpenWrt
-            ### OpenWrt Image Verification
-            - sha256sum
-    
-
-
-
+        files: ${{ env.FIRMWARE }}/*
+        name: ${{ env.FILE_DATE }}-${{ env.OPENWRT_NAME }}-${{ env.UPLOAD_TAG_NAME }}${{ env.WIFI_VERSION }}${{ env.EEPROM }}${{ env.BUILD_DOCKERMAN }}
+        tag_name: ${{ steps.tag.outputs.release_tag }}
+        body_path: release.txt
