@@ -44,7 +44,7 @@ make menuconfig#sed -i '$asrc-git-full extraipk https://github.com/liker5092/ext
 ######
 
 
-#echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
+echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 
 # passwall
 #echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
