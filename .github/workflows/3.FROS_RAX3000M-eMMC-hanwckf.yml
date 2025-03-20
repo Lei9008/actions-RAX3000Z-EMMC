@@ -71,7 +71,7 @@ env:
   ###############手动修改##############
   ##因为是两个设备，所以手动设置上传时候的打包名称和tag名称UPLOAD_TAG_NAME
   OPENWRT_NAME: FROS
-  UPLOAD_TAG_NAME: RAX3000Z增强版
+  UPLOAD_TAG_NAME: rax3000m-emmc_xr30-emmc
   #REPO_URL: https://github.com/hanwckf/immortalwrt-mt798x
   #REPO_BRANCH: openwrt-21.02
   REPO_URL: https://github.com/Lei9008/immortalwrt-mt798x-fros
