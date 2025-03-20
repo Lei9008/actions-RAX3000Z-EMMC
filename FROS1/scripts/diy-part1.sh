@@ -1,5 +1,5 @@
 ##!/bin/bash
-#
+###########
 # Copyright (c) 2019-2020 P3TERX <https://p3terx.com>
 #
 # This is free software, licensed under the MIT License.
@@ -8,31 +8,15 @@
 # https://github.com/P3TERX/Actions-OpenWrt
 # File name: diy-part1.sh
 # Description: OpenWrt DIY script part 1 (Before Update feeds)
-#
+###########
 
-# Uncomment a feed source
+# Uncomment a feed source(取消订阅源的注释 )
 
 #sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 # ttyd免登陆
 #sed -i 's|/bin/login|/bin/login -f root|g' feeds/packages/utils/ttyd/files/ttyd.config
 
-# Add a feed source(添加源)
-#添加插件源
-#echo -e "\nsrc-git Lei9008_package https://github.com/Lei9008/openwrt_package_Lite.git" >> feeds.conf.default
-#echo -e "\nsrc-git Lei9008_package https://github.com/Lei9008/openwrt_package_Lite" >> feeds.conf.default
-## clone kiddin9/openwrt-packages仓库
-#echo "src-git openwrt_kiddin9 https://dl.openwrt.ai/latest/packages/aarch64_cortex-a53/kiddin9" >> feeds.conf.default
-#echo -e "\nsrc-git extraipk https://github.com/stwrnet/extra-ipk" >> feeds.conf.default
-#sed -i '$a src-git mzwrt_package https://github.com/mzwrt/mzwrt_package' feeds.conf.default
-## clone kiddin9/openwrt-packages仓库
-#sed -i '$asrc-git-full kiddin9 https://github.com/kiddin9/kwrt-packages.git' feeds.conf.default
-#sed -i '$asrc-git-full kenzo https://github.com/kenzok8/openwrt-packages.git' feeds.conf.default
-
-#sed -i '$a src-git smpackage https://github.com/kenzok8/small-package' feeds.conf.default
-#rm -rf feeds/smpackage/{base-files,dnsmasq,firewall*,fullconenat,libnftnl,nftables,ppp,opkg,ucl,upx,vsftpd*,miniupnpd-iptables,wireless-regdb}
-
-
-
+# Add a feed source(#添加插件源)
 
 #echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 
