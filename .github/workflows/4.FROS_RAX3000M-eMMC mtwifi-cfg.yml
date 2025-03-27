@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 ###############手动修改##############
-name: 4.FROS_RAX3000M-eMMC-hanwckf mtwifi-cfg
+name: 4.FROS_RAX3000M-eMMC-mtwifi-cfg
 
 on:
   repository_dispatch:
