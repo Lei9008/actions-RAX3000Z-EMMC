@@ -72,19 +72,16 @@ env:
   ##因为是两个设备，所以手动设置上传时候的打包名称和tag名称UPLOAD_TAG_NAME
   OPENWRT_NAME: FROS
   UPLOAD_TAG_NAME: rax3000m-emmc_xr30-emmc
-  REPO_URL: https://github.com/hanwckf/immortalwrt-mt798x
-  REPO_BRANCH: openwrt-21.02
-  #REPO_URL: https://github.com/destan19/immortalwrt-mt798x-fros
+  #REPO_URL: https://github.com/hanwckf/immortalwrt-mt798x
+  #REPO_BRANCH: openwrt-21.02
+  REPO_URL: https://github.com/destan19/immortalwrt-mt798x-fros
   #REPO_URL: https://github.com/Lei9008/immortalwrt-mt798x-fros
-  #REPO_BRANCH: openwrt-21.02-fros
-  #FREE_DISK_SH: FROS/scripts/free_disk_space.sh
+  REPO_BRANCH: openwrt-21.02-fros
   FEEDS_CONF: FROS1/scripts/feeds.conf.default
-  RAX3000M_EMMC_DTS_FILE: target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts
-  #ENV_SH: FROS/scripts/environment.sh
+  RAX3000M_EMMC_DTS_FILE: target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts  
   CONFIG_FILE: FROS1/.mtwifi-cfg.config
   DIY_P1_SH: FROS1/scripts/diy-part1.sh
   DIY_P2_SH: FROS1/scripts/diy-part2.sh
-  #CLASH_CORE: FROS/scripts/preset-clash-core.sh
   SSH_ACTIONS: false
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
@@ -156,16 +153,6 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
-######
-    - name: 设置是否使用 nx30pro eeprom
-     # if: env.USE_NX30PRO_EEPROM == 'true'
-      if: github.event.inputs.EEPROM == 'true'
-      run: |
-        mkdir openwrt/target/linux/mediatek/mt7981/base-files/lib/firmware
-        cp 25db/nx30pro_eeprom.bin openwrt/target/linux/mediatek/mt7981/base-files/lib/firmware/MT7981_iPAiLNA_EEPROM.bin
-        sed -i 's/caldata_extract_mmc/# caldata_extract_mmc/' openwrt/target/linux/mediatek/mt7981/base-files/lib/preinit/90_extract_caldata
-        sed -i 's#./files/mt7981-default-eeprom/MT7981_iPAiLNA_EEPROM.bin##' openwrt/package/mtk/drivers/mt_wifi/Makefile
-
     - name: 设置RAX3000M-eMMC的eMMC使用highspeed
       run: |
         cd openwrt
@@ -173,6 +160,33 @@ jobs:
                 sed -i -e '/bus-width = <8>;/ a\	cap-mmc-highspeed;' "${{ env.RAX3000M_EMMC_DTS_FILE }}"
         fi
 
+    ########
+    - name: 使用nx30pro的高功率eeprom并固定WiFi MAC地址
+      if: github.event.inputs.EEPROM == 'true'
+      run: |
+        cp 25db/nx30pro_eeprom.bin openwrt/package/mtk/drivers/mt_wifi/files/mt7981-default-eeprom/MT7981_iPAiLNA_EEPROM.bin
+        cd openwrt
+        wifi_driver=$(echo "${{ github.event.inputs.WIFI_DRIVER }}" | sed -E 's/^(v[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+).*/\1/')
+        firmware=$(echo "${{ github.event.inputs.WIFI_DRIVER }}" | sed -E 's/^.*-fw-([0-9]{8}).*/\1/')
+        if [ "$wifi_driver" == "v7.6.6.1" ]; then
+                cp $GITHUB_WORKSPACE/use/nx30pro_eeprom.bin package/mtk/drivers/mt_wifi/files-7661/bin/mt7981/rebb/MT7981_iPAiLNA_EEPROM.bin
+        else
+                if [ "$firmware" != "default" ]; then
+                        cp $GITHUB_WORKSPACE/use/mt79xx_20231229-4012a0_mt7981-fw-20240823_eeprom.tar.xz dl/mt79xx_20231229-4012a0.tar.xz
+                else                
+                        cp $GITHUB_WORKSPACE/use/mt79xx_20231229-4012a0_eeprom.tar.xz dl/mt79xx_20231229-4012a0.tar.xz
+                fi
+        fi
+        ## 创建一个辅助文件。文件内容是写入MAC地址到dat文件，固定wifi MAC地址
+        echo -e "\t\tlocal wifi0_mac=\"\$(mmc_get_mac_binary factory 0x04)\"
+        \t\tsed -i \"/^MacAddress=.*/ {s/.*/MacAddress=\$wifi0_mac/;b;}; \\\$aMacAddress=\$wifi0_mac\" /etc/wireless/mediatek/mt7981.dbdc.b0.dat
+        \t\tlocal wifi1_mac=\"\$(macaddr_setbit_la \$wifi0_mac)\"
+        \t\tsed -i \"/^MacAddress=.*/ {s/.*/MacAddress=\$wifi1_mac/;b;}; \\\$aMacAddress=\$wifi1_mac\" /etc/wireless/mediatek/mt7981.dbdc.b1.dat" > temp_insert.txt
+        ## 将文本内容写入02_network
+        sed -i '/mediatek_setup_macs()/,/\};/ {/cmcc,rax3000m-emmc)/ {n;n;n;r temp_insert.txt
+        }}' target/linux/mediatek/mt7981/base-files/etc/board.d/02_network
+    ######
+    
     - name: 设置LAN IP地址（路由器登录地址）
       run: |
         cd openwrt
@@ -202,31 +216,7 @@ jobs:
         fi
         echo "Use WiFi Driver: $wifi_driver-fw-$firmware"
 
-  ########
-    - name: 使用nx30pro的高功率eeprom并固定WiFi MAC地址
-      if: github.event.inputs.EEPROM == 'true'
-      run: |
-        cd openwrt
-        wifi_driver=$(echo "${{ github.event.inputs.WIFI_DRIVER }}" | sed -E 's/^(v[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+).*/\1/')
-        firmware=$(echo "${{ github.event.inputs.WIFI_DRIVER }}" | sed -E 's/^.*-fw-([0-9]{8}).*/\1/')
-        if [ "$wifi_driver" == "v7.6.6.1" ]; then
-                cp $GITHUB_WORKSPACE/use/nx30pro_eeprom.bin package/mtk/drivers/mt_wifi/files-7661/bin/mt7981/rebb/MT7981_iPAiLNA_EEPROM.bin
-        else
-                if [ "$firmware" != "default" ]; then
-                        cp $GITHUB_WORKSPACE/use/mt79xx_20231229-4012a0_mt7981-fw-20240823_eeprom.tar.xz dl/mt79xx_20231229-4012a0.tar.xz
-                else                
-                        cp $GITHUB_WORKSPACE/use/mt79xx_20231229-4012a0_eeprom.tar.xz dl/mt79xx_20231229-4012a0.tar.xz
-                fi
-        fi
-        ## 创建一个辅助文件。文件内容是写入MAC地址到dat文件，固定wifi MAC地址
-        echo -e "\t\tlocal wifi0_mac=\"\$(mmc_get_mac_binary factory 0x04)\"
-        \t\tsed -i \"/^MacAddress=.*/ {s/.*/MacAddress=\$wifi0_mac/;b;}; \\\$aMacAddress=\$wifi0_mac\" /etc/wireless/mediatek/mt7981.dbdc.b0.dat
-        \t\tlocal wifi1_mac=\"\$(macaddr_setbit_la \$wifi0_mac)\"
-        \t\tsed -i \"/^MacAddress=.*/ {s/.*/MacAddress=\$wifi1_mac/;b;}; \\\$aMacAddress=\$wifi1_mac\" /etc/wireless/mediatek/mt7981.dbdc.b1.dat" > temp_insert.txt
-        ## 将文本内容写入02_network
-        sed -i '/mediatek_setup_macs()/,/\};/ {/cmcc,rax3000m-emmc)/ {n;n;n;r temp_insert.txt
-        }}' target/linux/mediatek/mt7981/base-files/etc/board.d/02_network
-######
+ 
     
     - name: 使用luci-app-mtk无线配置
       if: github.event.inputs.APP_MTK == 'true'
