@@ -10,14 +10,20 @@
 # Description: OpenWrt DIY script part 1 (Before Update feeds)
 #
 
-# Uncomment a feed source
+# Uncomment a feed source(取消订阅源的注释 )
+
 #sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 # ttyd免登陆
 #sed -i 's|/bin/login|/bin/login -f root|g' feeds/packages/utils/ttyd/files/ttyd.config
 
 # Add a feed source
-echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
-echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
+#echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
+
+
+# passwall
+#echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
+
+# 阿里云服务
 git clone https://github.com/messense/aliyundrive-webdav package/messense
 
 # 应用过滤
