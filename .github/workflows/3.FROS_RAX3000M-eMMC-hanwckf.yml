@@ -72,11 +72,11 @@ env:
   ##因为是两个设备，所以手动设置上传时候的打包名称和tag名称UPLOAD_TAG_NAME
   OPENWRT_NAME: FROS
   UPLOAD_TAG_NAME: xr30-emmc
-  REPO_URL: https://github.com/hanwckf/immortalwrt-mt798x
-  REPO_BRANCH: openwrt-21.02
-  #REPO_URL: https://github.com/destan19/immortalwrt-mt798x-fros
+  #REPO_URL: https://github.com/hanwckf/immortalwrt-mt798x
+  #REPO_BRANCH: openwrt-21.02
+  REPO_URL: https://github.com/destan19/immortalwrt-mt798x-fros
   #REPO_URL: https://github.com/Lei9008/immortalwrt-mt798x-fros
-  #REPO_BRANCH: openwrt-21.02-fros
+  REPO_BRANCH: openwrt-21.02-fros
   FREE_DISK_SH: FROS/scripts/free_disk_space.sh
   FEEDS_CONF: FROS1/scripts/feeds.conf.default
   RAX3000M_EMMC_DTS_FILE: target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts
@@ -359,8 +359,8 @@ jobs:
         else
                 echo "- 未编译luci-app-dockerman" >> release.txt
         fi
-        #max_frequency=$(($(grep -oP "max-frequency = <\K[0-9]*" openwrt/target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts) / 1000000))
-        max_frequency=$(($(grep -oP "max-frequency = <\K[0-9]*" openwrt/target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-xr30-emmc.dts) / 1000000))
+        max_frequency=$(($(grep -oP "max-frequency = <\K[0-9]*" openwrt/target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m-emmc.dts) / 1000000))
+        #max_frequency=$(($(grep -oP "max-frequency = <\K[0-9]*" openwrt/target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-xr30-emmc.dts) / 1000000))
                     echo "- 使用闪存频率: ${max_frequency}MHz" >> release.txt
         echo "release_tag=${{ env.FILE_DATE }}-${{ env.OPENWRT_NAME }}-${{ env.UPLOAD_TAG_NAME }}${{ env.WIFI_VERSION }}${{ env.EEPROM }}${{ env.BUILD_DOCKERMAN }}" >> $GITHUB_OUTPUT
         echo "status=success" >> $GITHUB_OUTPUT
